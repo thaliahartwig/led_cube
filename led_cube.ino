@@ -24,7 +24,7 @@
                                   |
                                   |
                                   |
-                                  |_______________________ y
+                           (0,0,0)|_______________________ y
                                  /*  *  *  *
                                 /*  *  *  *
                                /*  *  *  *
@@ -33,21 +33,34 @@
                             /
                            x 
               (above model displays the first layer; z = 0)
+  --> connections were done by column (x,y), and by plane (z) A 
+  --> digital leads used for columns(cathodes) and analog(anodes) for layers
+
+  Digital-Pin Configurations: (notation: (x,y) --> associated pin)
+  (0,0) --> 13               (2,0) --> 5
+  (0,1) --> 12               (2,1) --> 4
+  (0,2) --> 11               (2,2) --> 3
+  (0,3) --> 10               (2,3) --> 2
+  (1,0) --> 9                (3,0) --> 1
+  (1,1) --> 8                (3,1) --> 0
+  (1,2) --> 7                (3,2) --> A5
+  (1,3) --> 6                (3,3) --> A6
+
+  Analog-Pin Configurations: (notation: (z = 0) --> associated pin)
+  (z = 0) --> A0
+  (z = 1) --> A1
+  (z = 2) --> A2
+  (z = 3) --> A3
 */
 
-//declaring local variables
 
-// anodes --> layers
 
-// cathodes --> columns
-
-// built-in functions required
 
 
 void setup() {
-
+  // Dependent on pin configurations
 }
 
 void loop() {
-  
+  // forks? break --> next pattern
 }
