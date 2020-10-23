@@ -90,13 +90,51 @@ void setup() {
 void loop() {
   // NOTE: currently being used for testing --> uncomment patterns
   turn_off();
+  pulse_cube();
 //  turn_on();
 //  turn_on_layers();
 //  turn_on_columns();
-  
-  weave();
+//  weave();
+//  delay(sleep);
 //  turn_on_led(0,0,0);
 //  delay(sleep);
+//  vertices();
+//  delay(sleep);
+}
+
+/////////////////////////////////////////////////////////////////
+// cathode operation - on/off
+// input:
+//  on --> boolean
+//   x --> int
+//   y --> int
+/////////////////////////////////////////////////////////////////
+void cathode_op(boolean on) {
+  for (int x = 0; x < 4; x++) {
+    for (int y = 0; y < 4; y++) {
+      digitalWrite(cathode[x][y],!on);
+    }
+  }
+}
+
+void cathode_op(boolean on, int x, int y) {
+  digitalWrite(cathode[x][y], !on);
+}
+
+/////////////////////////////////////////////////////////////////
+// anode operation - on/off
+// input:
+//  on --> boolean
+//   z --> int
+/////////////////////////////////////////////////////////////////
+void anode_op(boolean on) {
+  for (int z = 0; z < 4; z++) {
+    digitalWrite(anode[z],on);
+  }
+}
+
+void anode_op(boolean on, int z) {
+  digitalWrite(anode[z],on);
 }
 
 
@@ -104,12 +142,8 @@ void loop() {
 // turns all leds off
 /////////////////////////////////////////////////////////////////
 void turn_off() {
-  for (int x=0; x < 4 ; x++) {
-    for (int y=0; y < 4; y++) {
-     digitalWrite(cathode[x][y], 1); 
-    }
-  }
-  for (int z=0; z < 4; z++) digitalWrite(anode[z], 0);
+  cathode_op(0);
+  anode_op(0);
   delay(sleep);
 }
 
@@ -117,12 +151,8 @@ void turn_off() {
 // turns all leds on
 /////////////////////////////////////////////////////////////////
 void turn_on() {
-  for (int x=0; x < 4 ; x++) {
-    for (int y=0; y < 4; y++) {
-     digitalWrite(cathode[x][y], 0); 
-    }
-  }
-  for (int z=0; z < 4; z++) digitalWrite(anode[z],1);
+  cathode_op(1);
+  anode_op(1);
   delay(sleep);
 }
 
@@ -131,8 +161,8 @@ void turn_on() {
 // NOTE: (UPDATE --> Limitations)
 /////////////////////////////////////////////////////////////////
 void turn_on_led(int x, int y, int z) {
-  digitalWrite(cathode[x][y], 0);
-  digitalWrite(anode[z], 1);
+  cathode_op(1,x,y);
+  anode_op(1,z);
 }
 
 /////////////////////////////////////////////////////////////////
@@ -140,8 +170,8 @@ void turn_on_led(int x, int y, int z) {
 // NOTE: (UPDATE --> Limitation)
 /////////////////////////////////////////////////////////////////
 void turn_off_led(int x, int y, int z) {
-  digitalWrite(cathode[x][y], 1);
-  digitalWrite(anode[z], 0);
+  cathode_op(0,x,y);
+  anode_op(0,z);
 }
 
 /////////////////////////////////////////////////////////////////
@@ -149,7 +179,7 @@ void turn_off_led(int x, int y, int z) {
 /////////////////////////////////////////////////////////////////
 void turn_on_columns() {
   delay(sleep);
-  for (int z=0; z < 4; z++) digitalWrite(anode[z], 1);
+  anode_op(1);
   for (int x = 0; x < 4; x++) {
     if (x % 2 == 0) {
       for (int y=0; y < 4; y++) {
@@ -170,7 +200,7 @@ void turn_on_columns() {
 /////////////////////////////////////////////////////////////////
 void weave() {
   delay(sleep);
-  for (int z=0; z < 4; z++) digitalWrite(anode[z], 1);
+  anode_op(1);
   int rpt = REPEAT;
   while (rpt > 0) { 
     turn_off();
@@ -242,11 +272,7 @@ void turn_on_layers() {
   int rpt = REPEAT;
   while (rpt > 0) {
     turn_off();
-    for (int x=0; x < 4 ; x++) {
-      for (int y=0; y < 4; y++) {
-       digitalWrite(cathode[x][y], 0); 
-      }
-    }
+    cathode_op(1);
     for (int z = 0; z < 4; z++) {
       delay(sleep);
       digitalWrite(anode[z],1);
@@ -257,17 +283,53 @@ void turn_on_layers() {
 }
 
 /////////////////////////////////////////////////////////////////
+// vertices
+/////////////////////////////////////////////////////////////////
+void vertices() {
+  turn_off();
+  turn_on_led(0,0,0);
+  turn_on_led(0,0,3);
+  turn_on_led(0,3,0);
+  turn_on_led(0,3,3);
+  turn_on_led(3,0,0);
+  turn_on_led(3,0,3);
+  turn_on_led(3,3,0);
+  turn_on_led(3,3,3);
+  delay(sleep*2);
+}
+
+/////////////////////////////////////////////////////////////////
+// centered cube
+/////////////////////////////////////////////////////////////////
+void center_cube() {
+  for (int x = 1; x < 3; x++) {
+    for (int y = 1; y < 3; y++) {
+      for (int z = 1; z < 3; z++) {
+        turn_on_led(x,y,z);
+      }
+    }
+  }
+}
+/////////////////////////////////////////////////////////////////
 // pulsing  cube
 /////////////////////////////////////////////////////////////////
 void pulse_cube() {
-  // 
+  int rpt = REPEAT*3;
+  while (rpt > 0) {
+    turn_off();
+    center_cube();
+    delay(sleep*3);
+//    turn_on();
+    vertices();
+    rpt--;
+  }
 }
 
 /////////////////////////////////////////////////////////////////
 // bouncing cube
 /////////////////////////////////////////////////////////////////
 void bounce_cube() {
-  turn_off(); //initialise the cube
+  turn_off();
 }
 
 /*
