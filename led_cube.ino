@@ -66,7 +66,7 @@
 #define RPT     3
 #define N       4 // Dimension of cube N x N x N 
 #define D2      2 // Dimension of miniture cube
-#define SLEEP   100
+#define SLEEP   150
 
 /////////////////////////////////////////////////////////////////
 // Variables
@@ -719,5 +719,5 @@ void bounce_cube() {
   - bouncing cube
   - random/twinkling
   - stair/stacking
-  - cube pulse
+
 */
